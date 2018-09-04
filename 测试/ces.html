@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .index-confirm button {
+	width: 108px;
+	height: 30px;
+	background: url(./index22.png) no-repeat;
+	background-position: 0 -44px;
+	cursor: pointer;
+	text-indent: -10000px;
+	overflow: hidden;
+	border: none;
+	outline: none;
+	margin-left: 50px;
+	
+}
+.index-confirm span{
+	font-family: simsun;
+	width: 108px;
+	height: 30px;
+	/* -moz-opacity:0;
+	-khtml-opacity: 0;
+	opacity:0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0); */
+
+	/* filter:Alpha(Opacity=0); */
+	color: #EEE8AA;
+	background: #ab793c;
+	background: url(./indexq.png) no-repeat;
+	/* background-position: 0 -44px; */
+	/* cursor: pointer; */
+	/* text-indent: -10000px; */
+	letter-spacing: 2px;
+	/* overflow: hidden; */
+	border: none;
+	/* outline: none; */
+	font-size: 14px;
+	display: block;
+	/* cursor: pointer; */
+	margin-left: 120px;
+}
+#loding>img{
+	width: 20px;
+	position: relative;
+	top: 5px;
+	left: -3px;
+	/* opacity:0;
+	-moz-opacity:0;
+	-khtml-opacity: 0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0); */
+	
+}
+.index-confirm button:hover {
+	background-position: 0 0;
+}
+    </style>
+</head>
+<body>
+    <form>
+        <input type="text" name="name" id="name" />
+		<input type="password" name="pwd" id="pwd" />
+		<!-- <input type="submit" id="but" value="提交"/> -->
+		<div class="index-confirm">
+			<button id="sub">提交</button>
+        <span id="loding"><img src="./loding.gif"/>加载中..</span>
+		</div>
+        
+    </form>
+    <div id="meg"></div>
+    <!-- <script src="./jquery.min.js"></script> -->
+    <script src="jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#sub").ajaxStart(function(){
+						$("#sub").hide();
+						$("#loding").show();
+					});
+					$("#sub").ajaxComplete(function(){
+						$("#sub").delay(3000).show(0);
+						$("#loding").delay(3000).hide(0);
+						// $(".index-confirm").children("#loding").css("opacity","1");
+						// $(".index-confirm").children("#loding").children("img").css("opacity","1");
+					});
+					// $("#sub").click(function(){
+					// 	$(".index-confirm").children("#sub").hide();
+					// 	$(".index-confirm").children("#loding").css("opacity","1");
+					// 	$(".index-confirm").children("#loding").children("img").css("opacity","1");
+                    // });
+                    $("#sub").click(function(){
+						console.log("2");
+                        $.ajax({
+                            type: 'POST',
+                            dataType: 'jsonp',
+                            //url: 'https://serv.9891.com/open/game/getServerList',
+                            // url: 'https://www.9891.com/parts/yungengxin/getAreaServer',
+							url:'http://localhost/93/aj.php',
+                            data: {name:$("#name").val(),pwd:$("#pwd").val()},
+							async:false,
+							
+                            success: function (data) {
+								// $(".index-confirm").children(".forin").show(0);
+								// $(".index-confirm").children("#loding").css("opacity","0");
+								// $(".index-confirm").children("#loding").children("img").css("opacity","0");
+								console.log("2");
+								$("#meg").html(data);
+                                // var str = '';
+                                // $.each(data.data, function (n, value) {
+                                //     str += '<span class="item" data-value="' + value.sid + '">' + value.server_name + '</span>';
+                                // });
+                                // $("#server-list").html(str);
+                                // that.setScroll(options);
+                            },
+                            // error:function(e){
+                            //     alert(e);
+                            // }
+                        });
+                    });
+					$.ajax({
+        			type: "post",
+       				 url: "http://localhost/93/aj.php",
+       				 data: {username:username,password:password},//提交到demo.php的数据
+        			dataType: "json",//回调函数接收数据的数据格式
+        			success: function(msg){
+         			$('#text').empty();   //清空Text里面的所有内容
+          			var data='';
+          			if(msg!=''){
+            		data = eval("("+msg+")");    //将返回的json数据进行解析，并赋给data
+          				}
+          			$('#text').html("用户名为：" + data.username + ",密码为：" + data.password);    //在#text中输出
+          			console.log(data);    //控制台输出
+        			},
+        			error:function(msg){
+         			console.log(msg);
+        			}
+     				 });
+        })
+    </script>
+</body>
+</html>

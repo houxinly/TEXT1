@@ -1,0 +1,24 @@
+<head>
+    <title>jquery点击按钮后灰色倒计时并且无法提交，倒计时结束后恢复</title>
+    <script type="text/javascript" src="http://www.daimabiji.com/statics/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btn').click(function () {
+                var count = 3;
+                var countdown = setInterval(CountDown, 1000);
+                function CountDown() {
+                    $("#btn").attr("disabled", true);
+                    $("#btn").val("加载中");
+                    if (count == 0) {
+                        $("#btn").val("获取验证码").removeAttr("disabled");
+                        clearInterval(countdown);
+                    }
+                    count--;
+                }
+            })
+        });
+   </script>
+</head>
+<body>
+<input type="button" id="btn" value="提交" />
+</body>

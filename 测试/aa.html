@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .index-confirm button {
+	width: 108px;
+	height: 30px;
+	background: url(./index22.png) no-repeat;
+	background-position: 0 -44px;
+	cursor: pointer;
+	text-indent: -10000px;
+	overflow: hidden;
+	border: none;
+	outline: none;
+	margin-left: 50px;
+	
+}
+.index-confirm .loding{
+	font-family: simsun;
+	width: 108px;
+	height: 30px;
+	/* -moz-opacity:0;
+	-khtml-opacity: 0;
+	opacity:0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0); */
+
+	/* filter:Alpha(Opacity=0); */
+	color: #EEE8AA;
+	background: #ab793c;
+    text-align: center;
+	background: url(./indexq.png) no-repeat;
+	/* background-position: 0 -44px; */
+	/* cursor: pointer; */
+	/* text-indent: -10000px; */
+	letter-spacing: 2px;
+	/* overflow: hidden; */
+	border: none;
+	/* outline: none; */
+	font-size: 14px;
+	/* display: none; */
+    display: none;
+  
+	/* cursor: pointer; */
+	margin-left: 50px;
+}
+#loding>img{
+	width: 20px;
+	position: relative;
+	top: 5px;
+	/* left: -3px; */
+	/* opacity:0;
+	-moz-opacity:0;
+	-khtml-opacity: 0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	 */
+}
+.index-confirm button:hover {
+	background-position: 0 0;
+}
+
+    </style>
+</head>
+<body>
+  
+        <input type="text" id="username">
+        <input type="text" id="password">
+        <!-- <button id="sub">查询</button> -->
+        <span id="text"></span><!-- 用以显示返回来的数据，只刷新这部分地方 -->
+		<!-- <input type="submit" id="but" value="提交"/> -->
+		<div class="index-confirm">
+            <button id="sub">提交</button>
+            <div class="loding">
+                <span id="loding"><img src="./loding.gif"/>加载中..</span>  
+            </div>
+             <!-- <span id="loding"><img src="./loding.gif"/>加载中..</span> -->
+       
+		</div>
+        
+    <!-- <div id="meg"></div> -->
+    <!-- <script src="./jquery.min.js"></script> -->
+    <script src="jquery-1.8.3.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#sub").ajaxStart(function(){
+						$("#sub").hide();
+						$(".loding").show();
+					});
+					$("#sub").ajaxComplete(function(){
+						$("#sub").delay(3000).show(0);
+						$(".loding").delay(3000).hide(0);
+					});
+                    $('#sub').click(function(){
+                    var username=$('#username').val();
+                    var password=$('#password').val();
+                    $.ajax({
+                     type: "post",
+                        url: "http://localhost/93/aj.php",
+                        data: {username:username,password:password},//提交到demo.php的数据
+                        dataType: "json",//回调函数接收数据的数据格式
+                        success: function(msg){
+                        $('#text').empty();   //清空Text里面的所有内容
+                        var data='';
+                        if(msg!=''){
+                        data = eval("("+msg+")");    //将返回的json数据进行解析，并赋给data
+                        }
+                        $('#text').html("用户名为：" + data.username + ",密码为：" + data.password);    //在#text中输出
+                        console.log(data);    //控制台输出
+                        },
+                        error:function(msg){
+                        console.log(msg);
+            }
+      });
+    });
+        })
+    </script>
+</body>
+</html>
